@@ -87,12 +87,12 @@ Alternatively, you can follow the steps below if you want more fine-grained cont
     We offer some tools to to inspect the pre-processing results. Below are some options:
 
     - Blender: Download [Blender](https://www.blender.org/download/) and follow the instructions in our [add-on repo](https://github.com/mli0603/BlenderNeuralangelo).
-    - This [Jupyter notebook](scripts/visualize_colmap.ipynb) (using K3D) can be helpful for visualizing the COLMAP results.
+    - This [Jupyter notebook](projects/neuralangelo/scripts/visualize_colmap.ipynb) (using K3D) can be helpful for visualizing the COLMAP results.
 
 ## DTU dataset
 - Please use respecting the license terms of the dataset.
 
-You can run the following command to download DTU dataset and generate json files:
+You can run the following command to download [the DTU dataset](https://roboimagedata.compute.dtu.dk/?page_id=36) that is preprocessed by NeuS authors and generate json files:
 ```bash
 PATH_TO_DTU=datasets/dtu  # Modify this to be the DTU dataset root directory.
 bash projects/neuralangelo/scripts/preprocess_dtu.sh ${PATH_TO_DTU}
