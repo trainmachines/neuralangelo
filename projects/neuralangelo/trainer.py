@@ -53,10 +53,8 @@ class Trainer(BaseTrainer):
 
     def get_curvature_weight(self, current_iteration, init_weight, decay_factor):
         if "curvature" in self.weights:
-            if current_iteration <= self.warm_up_end:
-                self.weights["curvature"] = current_iteration / self.warm_up_end * init_weight
-            else:
-                self.weights["curvature"] = init_weight / decay_factor
+            weight = (min(current_iteration / self.warm_up_end, 1.) if self.warm_up_end > 0 else 1.) * init_weight
+            self.weights["curvature"] = weight / decay_factor
 
     def _start_of_iteration(self, data, current_iteration):
         model = self.model_module
@@ -67,6 +65,9 @@ class Trainer(BaseTrainer):
                 model.neural_sdf.set_normal_epsilon()
                 decay_factor = model.neural_sdf.growth_rate ** model.neural_sdf.add_levels  # TODO: verify?
                 self.get_curvature_weight(current_iteration, self.cfg.trainer.loss_weight.curvature, decay_factor)
+        elif self.cfg_gradient.mode == "numerical":
+            model.neural_sdf.set_normal_epsilon()
+
         return super()._start_of_iteration(data, current_iteration)
 
     @master_only

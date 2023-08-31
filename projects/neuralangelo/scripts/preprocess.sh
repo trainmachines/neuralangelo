@@ -8,9 +8,10 @@
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 # -----------------------------------------------------------------------------
 
-# {experiment_name} {path_to_video} {skip_frame_rate} {scene_type}
-image_path=${2%.*}_skip${3}
-bash projects/neuralangelo/scripts/run_ffmpeg.sh ${2} ${3}
-bash projects/neuralangelo/scripts/run_colmap.sh ${image_path}
-python3 projects/neuralangelo/scripts/convert_data_to_json.py --data_dir ${image_path}/dense --scene_type ${4}
-python3 projects/neuralangelo/scripts/generate_config.py --experiment_name ${1} --data_dir ${image_path}/dense --scene_type ${4} --auto_exposure_wb
+# usage: preprocess.sh <sequence_name> <full_video_path> <downsample_rate> <scene_type>
+
+data_path=datasets/${1}_ds${3}
+bash projects/neuralangelo/scripts/run_ffmpeg.sh ${1} ${2} ${3}
+bash projects/neuralangelo/scripts/run_colmap.sh ${data_path}
+python3 projects/neuralangelo/scripts/convert_data_to_json.py --data_dir ${data_path} --scene_type ${4}
+python3 projects/neuralangelo/scripts/generate_config.py --sequence_name ${1} --data_dir ${data_path} --scene_type ${4}
